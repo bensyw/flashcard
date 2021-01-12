@@ -4,7 +4,7 @@ import './app.css'
 import axios from 'axios'
 
 function App() {
-  const [flashcards, setFlashcards] = useState(SAMPLE_FLASHCARDS)
+  const [flashcards, setFlashcards] = useState([])
   const [categories, setCategories] = useState([])
 
   const categoryEl = useRef()
@@ -19,8 +19,23 @@ function App() {
   }, [])
 
   useEffect(() => {
+  }, [])
+
+  function decodeString(str) {
+    const textArea = document.createElement('textarea')
+    textArea.innerHTML = str
+    return textArea.value
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault()
     axios
-      .get('https://opentdb.com/api.php?amount=10')
+      .get('https://opentdb.com/api.php', {
+        params: {
+          amount: amountEl.current.value,
+          category: categoryEl.current.value
+        }
+      })
       .then(res => {
         setFlashcards(
           res.data.results.map((questionItem, index) => {
@@ -36,17 +51,8 @@ function App() {
           })
         )
       })
-  }, [])
-
-  function decodeString(str) {
-    const textArea = document.createElement('textarea')
-    textArea.innerHTML = str
-    return textArea.value
   }
 
-  function handleSubmit(e) {
-    e.preventDefault()
-  }
 
   return (
     <>
@@ -82,39 +88,3 @@ function App() {
 }
 
 export default App;
-
-const SAMPLE_FLASHCARDS = [
-  {
-    id: 1,
-    question: 'Question 1',
-    answer: 'Option A',
-    options: [
-      'A',
-      'B',
-      'C',
-      'D'
-    ]
-  },
-  {
-    id: 2,
-    question: 'Question 2',
-    answer: 'Option E',
-    options: [
-      'E',
-      'F',
-      'G',
-      'H'
-    ]
-  },
-  {
-    id: 3,
-    question: 'Question 3',
-    answer: 'Option I',
-    options: [
-      'I',
-      'L',
-      'M',
-      'N'
-    ]
-  }
-]
