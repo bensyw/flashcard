@@ -50,7 +50,9 @@ function App() {
 
   return (
     <>
+
       <form className="header" onSubmit={handleSubmit}>
+
         <div className="form-group">
           <label htmlFor="category"> Category </label>
           <select id="category" ref={categoryEl}>
@@ -59,14 +61,22 @@ function App() {
             })}
           </select>
         </div>
+
         <div className="form-group">
           <label htmlFor="amount"> Number of Questions</label>
           <input type="number" id="amount" min="1" step="1" defaultValue={10} ref={amountEl}></input>
         </div>
+
+        <div className="form-group">
+          <button className="btn"> Generate </button>
+        </div>
+
       </form>
+
       <div className="container">
         <FlashCardList flashcards={flashcards} />
       </div>
+
     </>
   );
 }
